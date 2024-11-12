@@ -1,6 +1,6 @@
 {
-    "app_id": "com.moodle.moodlemobile",
-    "appname": "Moodle Mobile",
+    "app_id": "com.learniphi.consulted",
+    "appname": "ConsultEd",
     "versioncode": 45000,
     "versionname": "4.5.0",
     "cache_update_frequency_usually": 420000,
@@ -70,37 +70,42 @@
     "wsservice": "moodle_mobile_app",
     "demo_sites": {
         "student": {
-            "url": "https://school.moodledemo.net",
+            "url": "https://lms.consultedsolutions.com/",
             "username": "student",
             "password": "moodle2024"
         },
         "teacher": {
-            "url": "https://school.moodledemo.net",
+            "url": "https://lms.consultedsolutions.com/",
             "username": "teacher",
             "password": "moodle2024"
         }
     },
-    "defaultZoomLevel": "none",
-    "zoomlevels": {
-        "none": 100,
-        "medium": 110,
-        "high": 120
-    },
-    "customurlscheme": "moodlemobile",
-    "sites": [],
+    "siteurl": "https://lms.consultedsolutions.com/",
+    "siteUrl": "https://lms.consultedsolutions.com/",
+    "forceLogin": true,
+    "customurlscheme": "consulted",
+    "sites": [
+        {
+            "name": "short_name",
+            "alias": "full_name",
+            "url": "https://lms.consultedsolutions.com/",
+            "staging": false
+        }
+    ],
+    
     "multisitesdisplay": "",
     "sitefindersettings": {},
     "onlyallowlistedsites": false,
     "forcedefaultlanguage": false,
-    "privacypolicy": "https://moodle.net/moodle-app-privacy/",
+    "privacypolicy": "https://lms.consultedsolutions.com/moodle-app-privacy/",
     "notificoncolor": "#f98012",
     "enableanalytics": false,
     "enableonboarding": true,
-    "forceColorScheme": "",
+    "forceColorScheme": "#C50E70",
     "forceLoginLogo": false,
     "ioswebviewscheme": "moodleappfs",
     "appstores": {
-        "android": "com.moodle.moodlemobile",
+        "android": "com.learniphi.consulted",
         "ios": "id633359593"
     },
     "wsrequestqueuelimit": 10,

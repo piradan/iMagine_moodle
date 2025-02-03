@@ -1,4 +1,13 @@
 {
-    "nocourses": "No recent courses",
-    "pluginname": "Recently accessed courses"
+    "pluginname": "Student Progress",
+    "viewbadges": "View your earned badges",
+    "viewcertificates": "View your certificates",
+    "courseprogress": "Course Progress",
+    "personalachievements": "Personal Achievements",
+    "noachievements": "No achievements yet. Keep learning!",
+    "nobadges": "No badges earned yet",
+    "nocertificates": "No certificates earned yet",
+    "progresssummary": "{{completed}} of {{total}} activities completed",
+    "viewallprogress": "View detailed progress",
+    "recentachievements": "Recent Achievements"
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CoreBlockBaseComponent } from '@features/block/classes/base-block-component';
-import { Badge, Certificate, CourseProgress, Achievement } from '../../services/interfaces';
 import { AddonRecentlyAccessedItemsService } from '../../services/recentlyaccesseditems';
 
 @Component({
@@ -10,18 +9,18 @@ import { AddonRecentlyAccessedItemsService } from '../../services/recentlyaccess
 })
 export class AddonBlockRecentlyAccessedItemsComponent extends CoreBlockBaseComponent implements OnInit {
 
-    badges: Badge[] = [];
-    certificates: Certificate[] = [];
-    courseProgress: CourseProgress[] = [];
-    achievements: Achievement[] = [];
+    badges: any[] = [];
+    certificates: any[] = [];
+    courseProgress: any[] = [];
+    achievements: any[] = [];
     loaded = false;
 
-    constructor(private recentItemsService: AddonRecentlyAccessedItemsService) {
+    constructor(private recentlyAccessedItemsService: AddonRecentlyAccessedItemsService) {
         super('AddonBlockRecentlyAccessedItemsComponent');
     }
 
     /**
-     * Component initialization.
+     * Component being initialized.
      */
     async ngOnInit(): Promise<void> {
         try {
@@ -32,23 +31,23 @@ export class AddonBlockRecentlyAccessedItemsComponent extends CoreBlockBaseCompo
     }
 
     /**
-     * Load all content.
+     * Fetch the data.
      */
     protected async loadContent(): Promise<void> {
         try {
-            const [badges, certificates, progress, achievements] = await Promise.all([
-                this.recentItemsService.getBadges(),
-                this.recentItemsService.getCertificates(),
-                this.recentItemsService.getCourseProgress(),
-                this.recentItemsService.getAchievements()
+            const [badges, certificates, courseProgress, achievements] = await Promise.all([
+                this.recentlyAccessedItemsService.getBadges(),
+                this.recentlyAccessedItemsService.getCertificates(),
+                this.recentlyAccessedItemsService.getCourseProgress(),
+                this.recentlyAccessedItemsService.getAchievements(),
             ]);
 
             this.badges = badges;
             this.certificates = certificates;
-            this.courseProgress = progress;
+            this.courseProgress = courseProgress;
             this.achievements = achievements;
         } catch (error) {
-            console.error('Error loading student progress data:', error);
+            console.error('Error loading student progress data', error);
             throw error;
         }
     }
@@ -60,7 +59,6 @@ export class AddonBlockRecentlyAccessedItemsComponent extends CoreBlockBaseCompo
      */
     async doRefresh(refresher?: any): Promise<void> {
         try {
-            await this.recentItemsService.invalidateCache();
             await this.loadContent();
         } finally {
             refresher?.complete();

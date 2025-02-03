@@ -1,96 +1,96 @@
-&lt;ion-content&gt;
-    &lt;!-- My Badges Section --&gt;
-    &lt;ion-card *ngIf="badges.length" class="badges-card"&gt;
-        &lt;ion-card-header&gt;
-            &lt;ion-card-title&gt;
-                &lt;h2 class="section-title"&gt;My Badges&lt;/h2&gt;
-            &lt;/ion-card-title&gt;
-        &lt;/ion-card-header&gt;
-        &lt;ion-card-content&gt;
-            &lt;ion-list&gt;
-                &lt;ion-item *ngFor="let badge of badges" lines="full" class="badge-item"&gt;
-                    &lt;ion-avatar slot="start" class="badge-avatar"&gt;
-                        &lt;img [src]="badge.badgeurl" [alt]="badge.name"&gt;
-                    &lt;/ion-avatar&gt;
-                    &lt;ion-label&gt;
-                        &lt;h3 class="badge-title"&gt;{{badge.name}}&lt;/h3&gt;
-                        &lt;p class="badge-desc"&gt;{{badge.description}}&lt;/p&gt;
-                        &lt;p class="badge-date"&gt;{{ badge.dateissued | coreFormatDate }}&lt;/p&gt;
-                    &lt;/ion-label&gt;
-                &lt;/ion-item&gt;
-            &lt;/ion-list&gt;
-        &lt;/ion-card-content&gt;
-    &lt;/ion-card&gt;
+<ion-content>
+    <!-- My Badges Section -->
+    <ion-card *ngIf="badges.length" class="badges-card">
+        <ion-card-header>
+            <ion-card-title>
+                <h2 class="section-title">My Badges</h2>
+            </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-list>
+                <ion-item *ngFor="let badge of badges" lines="full" class="badge-item">
+                    <ion-avatar slot="start" class="badge-avatar">
+                        <img [src]="badge.badgeurl" [alt]="badge.name">
+                    </ion-avatar>
+                    <ion-label>
+                        <h3 class="badge-title">{{badge.name}}</h3>
+                        <p class="badge-desc">{{badge.description}}</p>
+                        <p class="badge-date">{{ badge.dateissued | coreFormatDate }}</p>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
 
-    &lt;!-- My Certificates Section --&gt;
-    &lt;ion-card *ngIf="certificates.length" class="certificates-card"&gt;
-        &lt;ion-card-header&gt;
-            &lt;ion-card-title&gt;
-                &lt;h2 class="section-title"&gt;My Certificates&lt;/h2&gt;
-            &lt;/ion-card-title&gt;
-        &lt;/ion-card-header&gt;
-        &lt;ion-card-content&gt;
-            &lt;ion-list&gt;
-                &lt;ion-item *ngFor="let certificate of certificates" button [href]="certificate.downloadurl" detail="true" lines="full"&gt;
-                    &lt;ion-icon name="document-text" slot="start"&gt;&lt;/ion-icon&gt;
-                    &lt;ion-label&gt;
-                        &lt;h3&gt;{{certificate.name}}&lt;/h3&gt;
-                        &lt;p&gt;{{ certificate.timecreated | coreFormatDate }}&lt;/p&gt;
-                    &lt;/ion-label&gt;
-                &lt;/ion-item&gt;
-            &lt;/ion-list&gt;
-        &lt;/ion-card-content&gt;
-    &lt;/ion-card&gt;
+    <!-- My Certificates Section -->
+    <ion-card *ngIf="certificates.length" class="certificates-card">
+        <ion-card-header>
+            <ion-card-title>
+                <h2 class="section-title">My Certificates</h2>
+            </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-list>
+                <ion-item *ngFor="let certificate of certificates" button [href]="certificate.downloadurl" detail="true" lines="full">
+                    <ion-icon name="document-text" slot="start"></ion-icon>
+                    <ion-label>
+                        <h3>{{certificate.name}}</h3>
+                        <p>{{ certificate.timecreated | coreFormatDate }}</p>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
 
-    &lt;!-- Course Progress Section --&gt;
-    &lt;ion-card *ngIf="courseProgress.length" class="progress-card"&gt;
-        &lt;ion-card-header&gt;
-            &lt;ion-card-title&gt;
-                &lt;h2 class="section-title"&gt;Course Progress&lt;/h2&gt;
-            &lt;/ion-card-title&gt;
-        &lt;/ion-card-header&gt;
-        &lt;ion-card-content&gt;
-            &lt;ion-list&gt;
-                &lt;ion-item *ngFor="let course of courseProgress" lines="full"&gt;
-                    &lt;ion-label&gt;
-                        &lt;h3&gt;{{course.courseName}}&lt;/h3&gt;
-                        &lt;div class="progress-container"&gt;
-                            &lt;ion-progress-bar [value]="course.progress / 100"&gt;&lt;/ion-progress-bar&gt;
-                            &lt;p class="progress-text"&gt;{{course.progress}}% {{ 'core.complete' | translate }}&lt;/p&gt;
-                        &lt;/div&gt;
-                    &lt;/ion-label&gt;
-                &lt;/ion-item&gt;
-            &lt;/ion-list&gt;
-        &lt;/ion-card-content&gt;
-    &lt;/ion-card&gt;
+    <!-- Course Progress Section -->
+    <ion-card *ngIf="courseProgress.length" class="progress-card">
+        <ion-card-header>
+            <ion-card-title>
+                <h2 class="section-title">Course Progress</h2>
+            </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-list>
+                <ion-item *ngFor="let course of courseProgress" lines="full">
+                    <ion-label>
+                        <h3>{{course.courseName}}</h3>
+                        <div class="progress-container">
+                            <ion-progress-bar [value]="course.progress / 100"></ion-progress-bar>
+                            <p class="progress-text">{{course.progress}}% {{ 'core.complete' | translate }}</p>
+                        </div>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
 
-    &lt;!-- Personal Achievements Section --&gt;
-    &lt;ion-card *ngIf="achievements.length" class="achievements-card"&gt;
-        &lt;ion-card-header&gt;
-            &lt;ion-card-title&gt;
-                &lt;h2 class="section-title"&gt;Personal Achievements&lt;/h2&gt;
-            &lt;/ion-card-title&gt;
-        &lt;/ion-card-header&gt;
-        &lt;ion-card-content&gt;
-            &lt;ion-list&gt;
-                &lt;ion-item *ngFor="let achievement of achievements" lines="full"&gt;
-                    &lt;ion-icon [name]="achievement.icon" slot="start"&gt;&lt;/ion-icon&gt;
-                    &lt;ion-label&gt;
-                        &lt;h3&gt;{{achievement.title}}&lt;/h3&gt;
-                        &lt;p&gt;{{achievement.description}}&lt;/p&gt;
-                        &lt;p class="achievement-date"&gt;{{achievement.date | coreFormatDate}}&lt;/p&gt;
-                    &lt;/ion-label&gt;
-                &lt;/ion-item&gt;
-            &lt;/ion-list&gt;
-        &lt;/ion-card-content&gt;
-    &lt;/ion-card&gt;
+    <!-- Personal Achievements Section -->
+    <ion-card *ngIf="achievements.length" class="achievements-card">
+        <ion-card-header>
+            <ion-card-title>
+                <h2 class="section-title">Personal Achievements</h2>
+            </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-list>
+                <ion-item *ngFor="let achievement of achievements" lines="full">
+                    <ion-icon [name]="achievement.icon" slot="start"></ion-icon>
+                    <ion-label>
+                        <h3>{{achievement.title}}</h3>
+                        <p>{{achievement.description}}</p>
+                        <p class="achievement-date">{{achievement.date | coreFormatDate}}</p>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-card-content>
+    </ion-card>
 
-    &lt;!-- Empty State --&gt;
-    &lt;ion-card *ngIf="!courseProgress.length &amp;&amp; !badges.length &amp;&amp; !achievements.length &amp;&amp; !certificates.length"&gt;
-        &lt;ion-item&gt;
-            &lt;ion-label class="ion-text-center"&gt;
+    <!-- Empty State -->
+    <ion-card *ngIf="!courseProgress.length && !badges.length && !achievements.length && !certificates.length">
+        <ion-item>
+            <ion-label class="ion-text-center">
                 {{ 'addon.block_recentlyaccesseditems.noitems' | translate }}
-            &lt;/ion-label&gt;
-        &lt;/ion-item&gt;
-    &lt;/ion-card&gt;
-&lt;/ion-content&gt;
+            </ion-label>
+        </ion-item>
+    </ion-card>
+</ion-content>

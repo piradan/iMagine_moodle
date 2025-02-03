@@ -1,41 +1,81 @@
-<ion-item-divider [sticky]="true">
-    <ion-label>
-        <h2>{{ 'addon.block_recentlyaccesseditems.pluginname' | translate }}</h2>
-    </ion-label>
-    <div slot="end">
-        <core-horizontal-scroll-controls #scrollControls [aria-controls]="scrollElementId" />
-    </div>
-</ion-item-divider>
-<core-loading [hideUntil]="loaded">
-    <div [id]="scrollElementId" [hidden]="!items || items.length === 0" class="core-horizontal-scroll"
-        (scroll)="scrollControls.updateScrollPosition()">
-        <div *ngIf="items" (onResize)="scrollControls.updateScrollPosition()" class="flex-row">
-            <div class="safe-area-pseudo-padding-start"></div>
-            <div *ngFor="let item of items" class="core-horizontal-scroll-item">
-                <ion-card>
-                    <ion-item class="core-course-module-handler ion-text-wrap" [detail]="false" (click)="action($event, item)" button>
-                        <core-mod-icon slot="start" *ngIf="item.iconUrl" [modicon]="item.iconUrl" [modname]="item.modname"
-                            [componentId]="item.cmid" [showAlt]="false" [purpose]="item.purpose" [colorize]="colorizeIcons"
-                            [isBranded]="item.branded" />
-                        <ion-label>
-                            <!-- Add the icon title so accessibility tools read it. -->
-                            <span class="sr-only" *ngIf="item.iconTitle">{{ item.iconTitle }}</span>
-                            <p class="item-heading">
-                                <core-format-text [text]="item.name" contextLevel="module" [contextInstanceId]="item.cmid"
-                                    [courseId]="item.courseid" />
-                            </p>
-                            <p>
-                                <core-format-text [text]="item.coursename" contextLevel="course" [contextInstanceId]="item.courseid" />
-                            </p>
-                        </ion-label>
-                    </ion-item>
-                </ion-card>
-            </div>
-            <div class="safe-area-pseudo-padding-end"></div>
-        </div>
-    </div>
+<ion-card>
+    <core-loading [hideUntil]="loaded">
+        <!-- Badges Section -->
+        <ion-item-divider>
+            <ion-label>
+                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.viewbadges' | translate }}</h2>
+            </ion-label>
+        </ion-item-divider>
+        <ion-item class="ion-text-wrap" *ngFor="let badge of badges">
+            <ion-avatar slot="start">
+                <img [src]="badge.badgeurl" [alt]="badge.name" core-external-content>
+            </ion-avatar>
+            <ion-label>
+                <h3>{{badge.name}}</h3>
+                <p>{{badge.dateissued | date:'medium'}}</p>
+            </ion-label>
+        </ion-item>
+        <ion-item *ngIf="badges.length === 0">
+            <ion-label>
+                <p>{{ 'addon.block_recentlyaccesseditems.nobadges' | translate }}</p>
+            </ion-label>
+        </ion-item>
 
-    <core-empty-box *ngIf="items.length <= 0" image="assets/img/icons/activities.svg"
-        [message]="'addon.block_recentlyaccesseditems.noitems' | translate" />
+        <!-- Certificates Section -->
+        <ion-item-divider>
+            <ion-label>
+                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.viewcertificates' | translate }}</h2>
+            </ion-label>
+        </ion-item-divider>
+        <ion-item class="ion-text-wrap" *ngFor="let cert of certificates" [href]="cert.downloadurl" target="_blank">
+            <ion-icon name="trophy" slot="start" aria-hidden="true"></ion-icon>
+            <ion-label>
+                <h3>{{cert.name}}</h3>
+            </ion-label>
+            <ion-icon name="download" slot="end" aria-hidden="true"></ion-icon>
+        </ion-item>
+        <ion-item *ngIf="certificates.length === 0">
+            <ion-label>
+                <p>{{ 'addon.block_recentlyaccesseditems.nocertificates' | translate }}</p>
+            </ion-label>
+        </ion-item>
 
-</core-loading>
+        <!-- Course Progress Section -->
+        <ion-item-divider>
+            <ion-label>
+                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.courseprogress' | translate }}</h2>
+            </ion-label>
+        </ion-item-divider>
+        <ion-item class="ion-text-wrap" *ngFor="let courseItem of courseProgress">
+            <ion-icon *ngIf="courseItem.progress === 100" name="checkmark-circle" color="success" slot="start"
+                aria-hidden="true"></ion-icon>
+            <ion-label>
+                <h3>{{courseItem.courseName}}</h3>
+                <div class="progress-container">
+                    <ion-progress-bar [value]="courseItem.progress / 100" color="primary"></ion-progress-bar>
+                    <p class="progress-text">{{courseItem.completedActivities}} of {{courseItem.totalActivities}} activities completed ({{courseItem.progress}}%)</p>
+                </div>
+                <!-- Certificate Link (optional) -->
+                <ion-item *ngIf="courseItem.certificateUrl" [href]="courseItem.certificateUrl" target="_blank">
+                    <ion-icon name="document" slot="start" aria-hidden="true"></ion-icon>
+                    <ion-label>{{ 'addon.block_recentlyaccesseditems.viewcertificates' | translate }}</ion-label>
+                </ion-item>
+            </ion-label>
+        </ion-item>
+
+        <!-- Personal Achievements Section -->
+        <ion-item-divider>
+            <ion-label>
+                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.recentachievements' | translate }}</h2>
+            </ion-label>
+        </ion-item-divider>
+        <ion-item class="ion-text-wrap" *ngFor="let achievementItem of achievements">
+            <ion-icon [name]="achievementItem.icon" slot="start" aria-hidden="true"></ion-icon>
+            <ion-label>
+                <h3>{{achievementItem.title}}</h3>
+                <p>{{achievementItem.description}}</p>
+                <p class="achievement-date">{{achievementItem.date | date:'medium'}}</p>
+            </ion-label>
+        </ion-item>
+    </core-loading>
+</ion-card>

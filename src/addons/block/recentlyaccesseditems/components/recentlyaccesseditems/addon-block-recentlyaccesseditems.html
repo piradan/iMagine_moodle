@@ -1,70 +1,88 @@
-:host {
-    ion-card {
-        margin: 8px;
-    }
+<ion-content>
+    <!-- Course Progress Section -->
+    <ion-card *ngIf="courseProgress.length" class="progress-card">
+        <ion-card-header>
+            <ion-card-title>
+                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.progress' | translate }}</h2>
+            </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-item *ngFor="let course of courseProgress" lines="full">
+                <ion-label>
+                    <h3>{{course.courseName}}</h3>
+                    <div class="progress-container">
+                        <ion-progress-bar [value]="course.progress / 100"></ion-progress-bar>
+                        <p class="progress-text">{{course.progress}}% {{ 'core.complete' | translate }}</p>
+                    </div>
+                </ion-label>
+            </ion-item>
+        </ion-card-content>
+    </ion-card>
 
-    .section-title {
-        font-size: 18px;
-        font-weight: 500;
-        margin: 0;
-    }
+    <!-- Badges Section -->
+    <ion-card *ngIf="badges.length" class="badges-card">
+        <ion-card-header>
+            <ion-card-title>
+                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.badges' | translate }}</h2>
+            </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-item *ngFor="let badge of badges" lines="full" class="badge-item">
+                <ion-avatar slot="start" class="badge-avatar">
+                    <img [src]="badge.badgeurl" [alt]="badge.name">
+                </ion-avatar>
+                <ion-label>
+                    <h3 class="badge-title">{{badge.name}}</h3>
+                    <p class="badge-desc">{{badge.description}}</p>
+                    <p class="badge-date">{{ badge.dateissued | coreFormatDate }}</p>
+                </ion-label>
+            </ion-item>
+        </ion-card-content>
+    </ion-card>
 
-    .progress-container {
-        margin-top: 12px;
+    <!-- Achievements Section -->
+    <ion-card *ngIf="achievements.length" class="achievements-card">
+        <ion-card-header>
+            <ion-card-title>
+                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.achievements' | translate }}</h2>
+            </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-item *ngFor="let achievement of achievements" lines="full">
+                <ion-icon [name]="achievement.icon" slot="start" [aria-label]="achievement.title"></ion-icon>
+                <ion-label>
+                    <h3>{{achievement.title}}</h3>
+                    <p>{{achievement.description}}</p>
+                    <p class="achievement-date">{{achievement.date | coreFormatDate}}</p>
+                </ion-label>
+            </ion-item>
+        </ion-card-content>
+    </ion-card>
 
-        ion-progress-bar {
-            margin-bottom: 8px;
-        }
-    }
+    <!-- Certificates Section -->
+    <ion-card *ngIf="certificates.length" class="certificates-card">
+        <ion-card-header>
+            <ion-card-title>
+                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.certificates' | translate }}</h2>
+            </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-item *ngFor="let certificate of certificates" [href]="certificate.downloadurl" detail="true" lines="full">
+                <ion-icon name="document-text" slot="start" aria-label="Certificate"></ion-icon>
+                <ion-label>
+                    <h3>{{certificate.name}}</h3>
+                    <p>{{ certificate.timecreated | coreFormatDate }}</p>
+                </ion-label>
+            </ion-item>
+        </ion-card-content>
+    </ion-card>
 
-    .progress-text {
-        margin: 4px 0;
-        font-size: 14px;
-        color: var(--ion-color-medium);
-    }
-
-    .achievement-date {
-        margin-top: 4px;
-        font-size: 12px;
-        color: var(--ion-color-medium);
-    }
-
-    .radio-container {
-        width: 100%;
-        padding: 8px 0;
-        overflow: hidden;
-
-        audio {
-            width: 100%;
-            margin: 8px 0;
-        }
-
-        iframe {
-            border-radius: 8px;
-            background: var(--ion-color-light);
-        }
-    }
-
-    ion-item {
-        --padding-start: 16px;
-        --padding-end: 16px;
-        --inner-padding-end: 16px;
-    }
-
-    ion-item-divider {
-        --padding-start: 16px;
-        --padding-end: 8px;
-        --inner-padding-end: 8px;
-        --background: var(--ion-color-light);
-        min-height: 48px;
-    }
-
-    ion-avatar {
-        margin-right: 16px;
-    }
-
-    ion-icon {
-        font-size: 24px;
-        margin-right: 16px;
-    }
-}
+    <!-- Empty State -->
+    <ion-card *ngIf="!courseProgress.length && !badges.length && !achievements.length && !certificates.length">
+        <ion-item>
+            <ion-label class="ion-text-center">
+                {{ 'addon.block_recentlyaccesseditems.noitems' | translate }}
+            </ion-label>
+        </ion-item>
+    </ion-card>
+</ion-content>

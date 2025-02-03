@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CoreBlockBaseComponent } from '@features/block/classes/base-block-component';
-import { AddonRecentlyAccessedItemsService } from '../../services/recentlyaccesseditems';
+import { AddonRecentlyAccessedItemsService, AddonRecentlyAccessedItems } from '../../services/recentlyaccesseditems';
 import { Badge, Certificate, CourseProgress, Achievement } from '../../services/interfaces';
 
 @Component({
@@ -36,16 +36,16 @@ export class AddonBlockRecentlyAccessedItemsComponent extends CoreBlockBaseCompo
     protected async loadContent(): Promise<void> {
         try {
             const [badges, courseProgress, achievements, certificates] = await Promise.all([
-                AddonRecentlyAccessedItems.instance.getBadges(),
-                AddonRecentlyAccessedItems.instance.getCourseProgress(),
-                AddonRecentlyAccessedItems.instance.getAchievements(),
-                AddonRecentlyAccessedItems.instance.getCertificates(), // Retrieve certificates
+                AddonRecentlyAccessedItems.getBadges(),
+                AddonRecentlyAccessedItems.getCourseProgress(),
+                AddonRecentlyAccessedItems.getAchievements(),
+                AddonRecentlyAccessedItems.getCertificates(),
             ]);
 
             this.badges = badges;
             this.courseProgress = courseProgress;
             this.achievements = achievements;
-            this.certificates = certificates; // Assign certificates
+            this.certificates = certificates;
         } catch (error) {
             console.error('Error loading student progress data', error);
             throw error;

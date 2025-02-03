@@ -1,19 +1,41 @@
 :host {
+    ion-content {
+        --background: var(--ion-background-color);
+    }
+
     ion-card {
-        margin: 8px;
+        margin: 16px;
+        border-radius: 8px;
+        background: var(--ion-card-background);
+
+        ion-card-header {
+            padding: 16px;
+        }
+
+        ion-card-content {
+            padding: 0;
+        }
+
+        ion-item {
+            --background: transparent;
+            --padding-start: 16px;
+            --padding-end: 16px;
+            --inner-padding-end: 16px;
+        }
     }
 
     .section-title {
         font-size: 18px;
         font-weight: 500;
         margin: 0;
+        color: var(--ion-text-color);
     }
 
     .progress-container {
-        margin-top: 12px;
+        margin-top: 8px;
 
         ion-progress-bar {
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
     }
 
@@ -42,6 +64,67 @@
         iframe {
             border-radius: 8px;
             background: var(--ion-color-light);
+        }
+    }
+
+    .badges-card {
+        margin: 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+        ion-card-header {
+            padding: 16px;
+        }
+
+        .badge-item {
+            --padding-start: 16px;
+            --padding-end: 16px;
+            --inner-padding-end: 16px;
+            margin: 0;
+
+            .badge-avatar {
+                width: 40px;
+                height: 40px;
+            }
+
+            .badge-title {
+                font-weight: 500;
+                margin-bottom: 4px;
+                color: var(--ion-text-color);
+            }
+
+            .badge-desc {
+                color: var(--ion-color-medium);
+                font-size: 14px;
+            }
+
+            .badge-date {
+                font-size: 12px;
+                color: var(--ion-color-medium);
+                margin-top: 4px;
+            }
+        }
+
+        .badge-avatar {
+            width: 48px;
+            height: 48px;
+            margin-right: 16px;
+        }
+
+        .badge-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .badge-desc {
+            color: var(--ion-color-medium);
+            font-size: 14px;
+        }
+
+        .badge-date {
+            font-size: 12px;
+            color: var(--ion-color-medium);
+            margin-top: 4px;
         }
     }
 

@@ -14,7 +14,7 @@
 
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { CoreBlockDelegate } from '@features/block/services/block-delegate';
-import { AddonBlockRecentlyAccessedCoursesHandler } from './services/block-handler';
+import { AddonBlockRecentlyAccessedItemsHandler } from './services/block-handler';
 
 @NgModule({
     providers: [
@@ -22,7 +22,7 @@ import { AddonBlockRecentlyAccessedCoursesHandler } from './services/block-handl
             provide: APP_INITIALIZER,
             multi: true,
             useValue: () => {
-                CoreBlockDelegate.registerHandler(AddonBlockRecentlyAccessedCoursesHandler.instance);
+                CoreBlockDelegate.registerHandler(AddonBlockRecentlyAccessedItemsHandler.instance);
             },
         },
     ],

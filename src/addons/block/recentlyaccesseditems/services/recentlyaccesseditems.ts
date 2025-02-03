@@ -6,6 +6,7 @@ import { CoreCourse } from '@features/course/services/course';
 import { CoreCourses } from '@features/courses/services/courses';
 import { CoreCourseHelper } from '@features/course/services/course-helper';
 import { CoreCourseModuleDelegate } from '@features/course/services/module-delegate';
+import { Badge, Certificate, CourseProgress, Achievement } from './interfaces';
 
 // Constants for completion tracking
 const COMPLETION_TRACKING_NONE = 0;
@@ -13,38 +14,6 @@ const COMPLETION_TRACKING_MANUAL = 1;
 const COMPLETION_TRACKING_AUTOMATIC = 2;
 const COMPLETION_INCOMPLETE = 0;
 const COMPLETION_COMPLETE = 1;
-
-export interface Badge {
-    id: number;
-    name: string;
-    description: string;
-    badgeurl: string;
-    dateissued: number;
-}
-
-export interface Certificate {
-    id: number;
-    name: string;
-    downloadurl: string;
-    timecreated: number;
-}
-
-export interface CourseProgress {
-    courseid: number;
-    courseName: string;
-    progress: number;
-    completedActivities: number;
-    totalActivities: number;
-    certificateUrl?: string;
-}
-
-export interface Achievement {
-    id: number;
-    title: string;
-    description: string;
-    date: number;
-    icon: string;
-}
 
 interface WSBadgeResponse {
     badges: {
@@ -92,10 +61,11 @@ export class AddonRecentlyAccessedItemsService {
                 userid: site.getUserId()
             });
             return (response.badges || []).map(badge => ({
+                id: 0,
                 name: badge.name,
                 description: badge.description,
                 badgeurl: badge.badgeurl,
-                dateissued: new Date(badge.dateissued * 1000),
+                dateissued: badge.dateissued * 1000,
                 coursename: badge.coursefullname
             }));
         } catch (error) {
@@ -143,10 +113,10 @@ export class AddonRecentlyAccessedItemsService {
                         courseName: course.fullname,
                         courseid: course.id,
                         progress,
-                        completed: completion.completiondata?.complete || false,
+                        completed: !!completion.completiondata?.complete, // Force boolean
                         totalActivities,
                         completedActivities,
-                        certificateUrl: null, // Default
+                        certificateUrl: '', // Avoid null
                     };
 
                     // Match a certificate for this course if available
@@ -157,7 +127,7 @@ export class AddonRecentlyAccessedItemsService {
                         return cert.name.includes(course.fullname); 
                     });
                     if (match) {
-                        courseProgress.certificateUrl = match.downloadurl || null; // Ensure valid assignment
+                        courseProgress.certificateUrl = match.downloadurl || ''; // Ensure valid assignment
                     }
 
                     return courseProgress;
@@ -180,7 +150,7 @@ export class AddonRecentlyAccessedItemsService {
             completed: false,
             totalActivities: 0,
             completedActivities: 0,
-            certificateUrl: null, // Default
+            certificateUrl: '', // Default
         };
     }
 
@@ -207,10 +177,11 @@ export class AddonRecentlyAccessedItemsService {
                     activities.statuses?.forEach(status => {
                         if (status.timecompleted) {
                             achievements.push({
+                                id: 0,
                                 title: status.name,
                                 description: `Completed in ${course.fullname}`,
                                 icon: this.getModuleIcon(status.modname),
-                                date: new Date(status.timecompleted * 1000)
+                                date: status.timecompleted * 1000 // Keep it a number
                             });
                         }
                     });
@@ -220,7 +191,7 @@ export class AddonRecentlyAccessedItemsService {
             }));
 
             return achievements
-                .sort((a, b) => b.date.getTime() - a.date.getTime())
+                .sort((a, b) => b.date - a.date) // No getTime()
                 .slice(0, 4); // Limit to 4 items
         } catch (error) {
             console.error('Error getting achievements:', error);
@@ -243,6 +214,7 @@ export class AddonRecentlyAccessedItemsService {
                     id: number;
                     name: string;
                     coursemoduleid: number;
+                    timecreated: number;
                 }[];
             }>('mod_customcert_get_issued_certificates', { userid: userId });
 
@@ -250,7 +222,8 @@ export class AddonRecentlyAccessedItemsService {
             return (response.certificates || []).map(cert => ({
                 id: cert.id,
                 name: cert.name,
-                downloadurl: `${site.getURL()}/mod/customcert/view.php?id=${cert.coursemoduleid}&downloadown=1`
+                downloadurl: `${site.getURL()}/mod/customcert/view.php?id=${cert.coursemoduleid}&downloadown=1`,
+                timecreated: cert.timecreated || 0,
             }));
         } catch (error) {
             console.error('Error retrieving user certificates:', error);

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CoreBlockHandler } from '@features/block/services/block-delegate';
 import { CoreSites } from '@services/sites';
 import { makeSingleton } from '@singletons';
-import { AddonBlockRecentlyAccessedItemsComponent } from '../components/recentlyaccesseditems/recentlyaccesseditems';
+import { AddonBlockRecentlyAccessedItemsComponent } from '../../recentlyaccesseditems/components/recentlyaccesseditems/recentlyaccesseditems';
 
 /**
  * Block handler.

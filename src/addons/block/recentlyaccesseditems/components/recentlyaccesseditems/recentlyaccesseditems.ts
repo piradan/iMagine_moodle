@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CoreBlockBaseComponent } from '@features/block/classes/base-block-component';
 import { AddonRecentlyAccessedItemsService } from '../../services/recentlyaccesseditems';
+import type { Badge, Certificate, CourseProgress, Achievement } from '../../services/recentlyaccesseditems';
 
 @Component({
     selector: 'addon-block-recentlyaccesseditems',

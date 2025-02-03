@@ -1,7 +1,7 @@
 import { APP_INITIALIZER, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CoreBlockDelegate } from '@features/block/services/block-delegate';
-import { AddonBlockRecentlyAccessedItemsHandler } from './services/block-handler';
+import { AddonBlockRecentlyAccessedItemsHandlerService } from './services/block-handler';
 import { AddonBlockRecentlyAccessedItemsComponent } from './components/recentlyaccesseditems/recentlyaccesseditems';
 import { CoreSharedModule } from '@/core/shared.module';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -25,9 +25,9 @@ import { CoreComponentsModule } from '@components/components.module';
         {
             provide: APP_INITIALIZER,
             multi: true,
-            deps: [AddonBlockRecentlyAccessedItemsHandler],
-            useFactory: (handler: AddonBlockRecentlyAccessedItemsHandler) => () => {
-                CoreBlockDelegate.registerHandler(handler.instance);
+            deps: [AddonBlockRecentlyAccessedItemsHandlerService],
+            useFactory: (handler: AddonBlockRecentlyAccessedItemsHandlerService) => () => {
+                CoreBlockDelegate.registerHandler(handler);
                 return Promise.resolve();
             },
         },

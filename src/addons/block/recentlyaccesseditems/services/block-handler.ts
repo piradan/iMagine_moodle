@@ -22,4 +22,11 @@ export class AddonBlockRecentlyAccessedItemsHandlerService implements CoreBlockH
     }
 }
 
+<<<<<<< HEAD
 export const AddonBlockRecentlyAccessedItemsHandler = makeSingleton(AddonBlockRecentlyAccessedItemsHandlerService);
+=======
+/**
+ * Singleton service instance.
+ */
+export const AddonBlockRecentlyAccessedItemsHandler = makeSingleton(AddonBlockRecentlyAccessedItemsHandlerService)
+>>>>>>> ab0874c (Drawer Works  - Half done)

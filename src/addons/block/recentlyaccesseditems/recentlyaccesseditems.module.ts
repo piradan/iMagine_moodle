@@ -4,7 +4,7 @@ import { CoreBlockDelegate } from '@features/block/services/block-delegate';
 import { AddonBlockRecentlyAccessedItemsHandler } from './services/block-handler';
 import { AddonBlockRecentlyAccessedItemsComponent } from './components/recentlyaccesseditems/recentlyaccesseditems';
 import { CoreSharedModule } from '@/core/shared.module';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { CoreComponentsModule } from '@components/components.module';
 
 @NgModule({
@@ -21,12 +21,14 @@ import { CoreComponentsModule } from '@components/components.module';
         AddonBlockRecentlyAccessedItemsComponent,
     ],
     providers: [
+        DatePipe,
         {
             provide: APP_INITIALIZER,
             multi: true,
-            deps: [],
-            useFactory: () => () => {
-                CoreBlockDelegate.registerHandler(AddonBlockRecentlyAccessedItemsHandler.instance);
+            deps: [AddonBlockRecentlyAccessedItemsHandler],
+            useFactory: (handler: AddonBlockRecentlyAccessedItemsHandler) => () => {
+                CoreBlockDelegate.registerHandler(handler.instance);
+                return Promise.resolve();
             },
         },
     ],

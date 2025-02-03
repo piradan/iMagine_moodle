@@ -1,6 +1,3 @@
-/**
- * Badge interface representing a user's earned badge.
- */
 export interface Badge {
     id: number;
     name: string;
@@ -10,9 +7,6 @@ export interface Badge {
     coursename?: string;
 }
 
-/**
- * Certificate interface representing a user's earned certificate.
- */
 export interface Certificate {
     id: number;
     name: string;
@@ -21,89 +15,39 @@ export interface Certificate {
     courseid?: number;
 }
 
-/**
- * Course progress interface representing a user's progress in a course.
- */
 export interface CourseProgress {
-    courseid: number;
-    courseName: string;
+    id: number;
+    fullname: string;
     progress: number;
-    completed: boolean;
-    completedActivities: number;
-    totalActivities: number;
-    certificateUrl?: string | null;
+    completedactivities: number;
+    totalactivities: number;
 }
 
-/**
- * Achievement interface representing a user's achievement.
- */
 export interface Achievement {
     id: number;
-    title: string;
     description: string;
     date: number;
-    icon: string;
-    courseid?: number;
-    moduleid?: number;
+    moduleicon: string;
+    modulename: string;
+    value?: string;
 }
 
-/**
- * Web service response interfaces
- */
-export interface WSBadgeResponse {
-    badges: {
-        id: number;
-        name: string;
-        description: string;
-        badgeurl: string;
-        dateissued: number;
-        coursefullname?: string;
-    }[];
+export interface WSBadgesResponse {
+    badges: Badge[];
+    warnings?: any[];
 }
 
-export interface WSCertificateResponse {
-    certificates: {
-        id: number;
-        name: string;
-        downloadurl: string;
-        timecreated: number;
-        courseid?: number;
-    }[];
+export interface WSCertificatesResponse {
+    certificates: Certificate[];
+    warnings?: any[];
 }
 
 export interface WSCourseProgressResponse {
-    courses: {
-        id: number;
-        fullname: string;
-        progress: number;
-        completed: boolean;
-        completedactivities: number;
-        totalactivities: number;
-    }[];
+    courses: CourseProgress[];
+    warnings?: any[];
 }
 
-export interface WSAchievementResponse {
-    achievements: {
-        id: number;
-        title: string;
-        description: string;
-        timecreated: number;
-        icon: string;
-        courseid?: number;
-        cmid?: number;
-    }[];
-}
-
-/**
- * Completion tracking constants
- */
-export const enum CompletionTracking {
-    NONE = 0,
-    MANUAL = 1,
-    AUTOMATIC = 2
-}
-
-export const enum CompletionStatus {
-    INCOMPLETE = 0,
-    COMPLETE = 1
+export interface WSAchievementsResponse {
+    achievements: Achievement[];
+    warnings?: any[];
 }

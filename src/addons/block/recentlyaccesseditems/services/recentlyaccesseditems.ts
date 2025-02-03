@@ -1,72 +1,94 @@
 import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
 import { makeSingleton } from '@singletons';
-import { Badge, Certificate, CourseProgress, Achievement } from './interfaces';
+import { 
+    Badge, Certificate, CourseProgress, Achievement,  
+    WSBadgesResponse, WSCertificatesResponse, 
+    WSCourseProgressResponse, WSAchievementsResponse 
+} from './interfaces';
 
 @Injectable({ providedIn: 'root' })
 export class AddonRecentlyAccessedItemsService {
 
-    protected cache = {
-        badges: [] as Badge[],
-        certificates: [] as Certificate[],
-        courseProgress: [] as CourseProgress[],
-        achievements: [] as Achievement[],
-    };
-
     /**
-     * Get user badges.
-     *
-     * @returns Promise resolved with badges.
+     * Get user badges using core_badges_get_user_badges.
      */
     async getBadges(): Promise<Badge[]> {
-        // TODO: Implement actual API call
-        return this.cache.badges;
+        const site = CoreSites.getCurrentSite();
+        if (!site) {
+            throw new Error('Site not found');
+        }
+
+        const response: WSBadgesResponse = await site.read('core_badges_get_user_badges', {
+            userid: site.getUserId()
+        });
+
+        return response.badges;
     }
 
     /**
-     * Get certificates.
-     *
-     * @returns Promise resolved with certificates.
+     * Get user certificates using mod_certificate_get_user_certificates.
      */
     async getCertificates(): Promise<Certificate[]> {
-        // TODO: Implement actual API call
-        return this.cache.certificates;
+        const site = CoreSites.getCurrentSite();
+        if (!site) {
+            throw new Error('Site not found');
+        }
+
+        const response: WSCertificatesResponse = await site.read('mod_certificate_get_user_certificates', {
+            userid: site.getUserId()
+        });
+
+        return response.certificates;
     }
 
     /**
-     * Get course progress.
-     *
-     * @returns Promise resolved with course progress.
+     * Get course progress using core_completion_get_course_completion_status.
      */
     async getCourseProgress(): Promise<CourseProgress[]> {
-        // TODO: Implement actual API call
-        return this.cache.courseProgress;
+        const site = CoreSites.getCurrentSite();
+        if (!site) {
+            throw new Error('Site not found');
+        }
+
+        const response: WSCourseProgressResponse = await site.read('core_completion_get_course_completion_status', {
+            userid: site.getUserId()
+        });
+
+        return response.courses;
     }
 
     /**
-     * Get achievements.
-     *
-     * @returns Promise resolved with achievements.
+     * Get achievements by combining activity completions and grades.
      */
     async getAchievements(): Promise<Achievement[]> {
-        // TODO: Implement actual API call
-        return this.cache.achievements;
+        const site = CoreSites.getCurrentSite();
+        if (!site) {
+            throw new Error('Site not found');
+        }
+
+        const response: WSAchievementsResponse = await site.read('core_completion_get_activities_completion_status', {
+            userid: site.getUserId()
+        });
+
+        return response.achievements;
     }
 
     /**
-     * Invalidate cache.
-     *
-     * @returns Promise resolved when done.
+     * Invalidate the cache for all data.
      */
     async invalidateCache(): Promise<void> {
-        this.cache = {
-            badges: [],
-            certificates: [],
-            courseProgress: [],
-            achievements: [],
-        };
-        
-        // TODO: Implement actual cache invalidation for the API calls
+        const site = CoreSites.getCurrentSite();
+        if (!site) {
+            return;
+        }
+
+        await Promise.all([
+            site.invalidateWsCacheForKey('badges'),
+            site.invalidateWsCacheForKey('certificates'),
+            site.invalidateWsCacheForKey('courseprogress'),
+            site.invalidateWsCacheForKey('achievements')
+        ]);
     }
 }
 

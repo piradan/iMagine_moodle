@@ -1,96 +1,94 @@
-<ion-content>
-    <!-- My Badges Section -->
-    <ion-card *ngIf="badges.length" class="badges-card">
-        <ion-card-header>
-            <ion-card-title>
-                <h2 class="section-title">My Badges</h2>
-            </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-            <ion-list>
-                <ion-item *ngFor="let badge of badges" lines="full" class="badge-item">
-                    <ion-avatar slot="start" class="badge-avatar">
-                        <img [src]="badge.badgeurl" [alt]="badge.name">
-                    </ion-avatar>
-                    <ion-label>
-                        <h3 class="badge-title">{{badge.name}}</h3>
-                        <p class="badge-desc">{{badge.description}}</p>
-                        <p class="badge-date">{{ badge.dateissued | coreFormatDate }}</p>
-                    </ion-label>
-                </ion-item>
-            </ion-list>
-        </ion-card-content>
-    </ion-card>
-
-    <!-- My Certificates Section -->
-    <ion-card *ngIf="certificates.length" class="certificates-card">
-        <ion-card-header>
-            <ion-card-title>
-                <h2 class="section-title">My Certificates</h2>
-            </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-            <ion-list>
-                <ion-item *ngFor="let certificate of certificates" button [href]="certificate.downloadurl" detail="true" lines="full">
-                    <ion-icon name="document-text" slot="start"></ion-icon>
-                    <ion-label>
-                        <h3>{{certificate.name}}</h3>
-                        <p>{{ certificate.timecreated | coreFormatDate }}</p>
-                    </ion-label>
-                </ion-item>
-            </ion-list>
-        </ion-card-content>
-    </ion-card>
-
-    <!-- Course Progress Section -->
-    <ion-card *ngIf="courseProgress.length" class="progress-card">
-        <ion-card-header>
-            <ion-card-title>
-                <h2 class="section-title">Course Progress</h2>
-            </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-            <ion-list>
-                <ion-item *ngFor="let course of courseProgress" lines="full">
-                    <ion-label>
-                        <h3>{{course.courseName}}</h3>
-                        <div class="progress-container">
-                            <ion-progress-bar [value]="course.progress / 100"></ion-progress-bar>
-                            <p class="progress-text">{{course.progress}}% {{ 'core.complete' | translate }}</p>
-                        </div>
-                    </ion-label>
-                </ion-item>
-            </ion-list>
-        </ion-card-content>
-    </ion-card>
-
-    <!-- Personal Achievements Section -->
-    <ion-card *ngIf="achievements.length" class="achievements-card">
-        <ion-card-header>
-            <ion-card-title>
-                <h2 class="section-title">Personal Achievements</h2>
-            </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-            <ion-list>
-                <ion-item *ngFor="let achievement of achievements" lines="full">
-                    <ion-icon [name]="achievement.icon" slot="start"></ion-icon>
-                    <ion-label>
-                        <h3>{{achievement.title}}</h3>
-                        <p>{{achievement.description}}</p>
-                        <p class="achievement-date">{{achievement.date | coreFormatDate}}</p>
-                    </ion-label>
-                </ion-item>
-            </ion-list>
-        </ion-card-content>
-    </ion-card>
-
-    <!-- Empty State -->
-    <ion-card *ngIf="!courseProgress.length && !badges.length && !achievements.length && !certificates.length">
-        <ion-item>
-            <ion-label class="ion-text-center">
-                {{ 'addon.block_recentlyaccesseditems.noitems' | translate }}
+<ion-card>
+    <core-loading [hideUntil]="loaded">
+        <!-- Badges Section -->
+        <ion-item-divider>
+            <ion-label>
+                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.badges' | translate }}</h2>
+            </ion-label>
+        </ion-item-divider>
+        <ion-item class="ion-text-wrap" *ngFor="let badge of badges">
+            <ion-avatar slot="start">
+                <img [src]="badge.badgeurl" [alt]="badge.name" core-external-content>
+            </ion-avatar>
+            <ion-label>
+                <h3>{{badge.name}}</h3>
+                <p>{{badge.dateissued | coreFormatDate }}</p>
             </ion-label>
         </ion-item>
-    </ion-card>
-</ion-content>
+        <ion-item *ngIf="badges.length === 0">
+            <ion-label>
+                <p>{{ 'addon.block_recentlyaccesseditems.nobadges' | translate }}</p>
+            </ion-label>
+        </ion-item>
+
+        <!-- Certificates Section -->
+        <ion-item-divider>
+            <ion-label>
+                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.certificates' | translate }}</h2>
+            </ion-label>
+        </ion-item-divider>
+        <ion-item class="ion-text-wrap" *ngFor="let cert of certificates" [href]="cert.downloadurl" target="_blank">
+            <ion-icon name="document" slot="start" aria-hidden="true"></ion-icon>
+            <ion-label>
+                <h3>{{cert.name}}</h3>
+                <p>{{cert.timecreated | coreFormatDate }}</p>
+            </ion-label>
+            <ion-button slot="end" fill="clear">
+                <ion-icon name="download" slot="icon-only" aria-hidden="true"></ion-icon>
+            </ion-button>
+        </ion-item>
+        <ion-item *ngIf="certificates.length === 0">
+            <ion-label>
+                <p>{{ 'addon.block_recentlyaccesseditems.nocertificates' | translate }}</p>
+            </ion-label>
+        </ion-item>
+
+        <!-- Course Progress Section -->
+        <ion-item-divider>
+            <ion-label>
+                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.progress' | translate }}</h2>
+            </ion-label>
+        </ion-item-divider>
+        <ion-item class="ion-text-wrap" *ngFor="let course of courseProgress">
+            <ion-label>
+                <h3>{{course.fullname}}</h3>
+                <div class="progress-container">
+                    <ion-progress-bar [value]="course.progress/100" color="primary"></ion-progress-bar>
+                    <p class="progress-text">
+                        {{ 'addon.block_recentlyaccesseditems.progresssummary' | translate: { 
+                            completed: course.completedactivities, 
+                            total: course.totalactivities 
+                        } }}
+                    </p>
+                </div>
+            </ion-label>
+            <ion-icon *ngIf="course.progress === 100" 
+                     name="checkmark-circle" 
+                     color="success" 
+                     slot="end" 
+                     aria-hidden="true">
+            </ion-icon>
+        </ion-item>
+
+        <!-- Achievements Section -->
+        <ion-item-divider>
+            <ion-label>
+                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.achievements' | translate }}</h2>
+            </ion-label>
+        </ion-item-divider>
+        <ion-item class="ion-text-wrap" *ngFor="let achievement of achievements">
+            <ion-icon [name]="achievement.moduleicon" slot="start" aria-hidden="true"></ion-icon>
+            <ion-label>
+                <h3>{{achievement.description}}</h3>
+                <p>{{achievement.modulename}}</p>
+                <p *ngIf="achievement.value">{{achievement.value}}</p>
+                <p class="date">{{achievement.date | coreFormatDate }}</p>
+            </ion-label>
+        </ion-item>
+        <ion-item *ngIf="achievements.length === 0">
+            <ion-label>
+                <p>{{ 'addon.block_recentlyaccesseditems.noachievements' | translate }}</p>
+            </ion-label>
+        </ion-item>
+    </core-loading>
+</ion-card>

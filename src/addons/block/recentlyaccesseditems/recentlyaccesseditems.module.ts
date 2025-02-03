@@ -6,6 +6,8 @@ import { AddonBlockRecentlyAccessedItemsComponent } from './components/recentlya
 import { CoreSharedModule } from '@/core/shared.module';
 import { CommonModule } from '@angular/common';
 import { CoreComponentsModule } from '@components/components.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { AddonRecentlyAccessedItemsService } from './services/recentlyaccesseditems';
 
 @NgModule({
     declarations: [
@@ -16,18 +18,18 @@ import { CoreComponentsModule } from '@components/components.module';
         CoreSharedModule,
         CommonModule,
         CoreComponentsModule,
+        TranslateModule.forChild(),
     ],
     exports: [
         AddonBlockRecentlyAccessedItemsComponent,
     ],
     providers: [
+        AddonRecentlyAccessedItemsService,
         {
             provide: APP_INITIALIZER,
             multi: true,
-            deps: [],
             useFactory: () => async () => {
                 CoreBlockDelegate.registerHandler(AddonBlockRecentlyAccessedItemsHandler.instance);
-                return Promise.resolve();
             },
         },
     ],

@@ -1,5 +1,10 @@
 {
     "pluginname": "Student Progress",
+    "badges": "My Badges",
+    "certificates": "My Certificates",
+    "progress": "Course Progress",
+    "achievements": "Personal Achievements",
+    "noitems": "No items to display",
     "viewbadges": "View your earned badges",
     "viewcertificates": "View your certificates",
     "courseprogress": "Course Progress",

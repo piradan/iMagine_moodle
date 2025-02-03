@@ -1,0 +1,61 @@
+# Ignore all dot files and folders
+.*
+
+# Do not ignore .gitignore and .gitattributes files
+!.gitignore
+!.gitattributes
+
+# Node.js dependencies
+/node_modules/
+
+# Build directories
+/dist/
+/build/
+/tmp/
+/out/
+/target/
+
+# IDEs and editors
+/.idea/
+/.vscode/
+/*.sublime-project
+/*.sublime-workspace
+
+# Log files
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Moodle specific cache and logs
+/moodledata/
+/localcache/
+
+# Optional files that can be regenerated
+*.bak
+*.swp
+*.swo
+*.tmp
+
+# Dependency management
+yarn-debug.log*
+npm-debug.log*
+package-lock.json
+
+# Generated files
+*.gz
+*.tar
+*.zip
+*.rar
+*.7z
+*.tar.gz
+*.tar.bz2
+
+# Other common build outputs
+*.out
+*.class
+*.exe
+*.dll
+*.dmg
+*.so

@@ -1,6 +1,6 @@
 {
-    "app_id": "com.learniphi.consulted",
-    "appname": "ConsultEd",
+    "app_id": "com.imagineingles.app",
+    "appname": "iMagine",
     "versioncode": 45000,
     "versionname": "4.5.0",
     "cache_update_frequency_usually": 420000,
@@ -70,25 +70,25 @@
     "wsservice": "moodle_mobile_app",
     "demo_sites": {
         "student": {
-            "url": "https://lms.consultedsolutions.com/",
+            "url": "https://imagineingles.com/lms",
             "username": "student",
             "password": "moodle2024"
         },
         "teacher": {
-            "url": "https://lms.consultedsolutions.com/",
+            "url": "https://imagineingles.com/lms",
             "username": "teacher",
             "password": "moodle2024"
         }
     },
-    "siteurl": "https://lms.consultedsolutions.com/",
-    "siteUrl": "https://lms.consultedsolutions.com/",
+    "siteurl": "https://imagineingles.com/lms",
+    "siteUrl": "https://imagineingles.com/lms",
     "forceLogin": true,
-    "customurlscheme": "consulted",
+    "customurlscheme": "iMagine",
     "sites": [
         {
             "name": "short_name",
             "alias": "full_name",
-            "url": "https://lms.consultedsolutions.com/",
+            "url": "https://imagineingles.com/lms",
             "staging": false
         }
     ],
@@ -97,7 +97,7 @@
     "sitefindersettings": {},
     "onlyallowlistedsites": false,
     "forcedefaultlanguage": false,
-    "privacypolicy": "https://lms.consultedsolutions.com/moodle-app-privacy/",
+    "privacypolicy": "https://imagineingles.com/lmsmoodle-app-privacy/",
     "notificoncolor": "#f98012",
     "enableanalytics": false,
     "enableonboarding": true,
@@ -105,7 +105,7 @@
     "forceLoginLogo": false,
     "ioswebviewscheme": "moodleappfs",
     "appstores": {
-        "android": "com.learniphi.consulted",
+        "android": "com.imagineingles.app",
         "ios": "id633359593"
     },
     "wsrequestqueuelimit": 10,

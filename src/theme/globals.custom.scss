@@ -1,8 +1,51 @@
-/*
- * App Custom App variables SCSS
- * ----------------------------------------------------------------------------
- * Place here all custom app variables.
- */
+:host {
+    .core-course-thumb {
+        height: calc(var(--core-courseimage-on-course-size) * 1.33);
+        min-height: calc(var(--core-courseimage-on-course-size) * 1.33);
+        width: var(--core-courseimage-on-course-size);
+        min-width: var(--core-courseimage-on-course-size);
 
- $brand-color: #C50E70 !default;
- $danger:       $brand-color !default;
+        img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+:host {
+    ion-header {
+        ion-toolbar {
+            --min-height: 64px;
+
+            ion-menu-button {
+                display: block;
+            }
+
+            @media (min-width: 992px) {
+                ion-menu-button {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    ion-menu {
+        ion-header {
+            display: none;
+        }
+
+        @media (min-width: 992px) {
+            position: relative;
+            width: auto;
+
+            ion-content {
+                --background: transparent;
+            }
+        }
+    }
+
+    ion-split-pane {
+        --side-width: 280px;
+        --side-max-width: 280px;
+    }
+}

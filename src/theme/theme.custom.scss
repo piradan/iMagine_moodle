@@ -8,8 +8,31 @@
  * Light Theme
  * -------------------------------------------
  */
-:root {
+ :root {
+    --ion-toolbar-background: #E00800;
+    --ion-toolbar-background-color: #E00800;
+    --ion-toolbar-color: #ffffff;
+    --core-header-toolbar-background: #E00800;
 
+    ion-header {
+        ion-toolbar {
+            --background: #E00800;
+            --color: #ffffff;
+            
+            ion-title, ion-button, ion-back-button {
+                --color: #ffffff;
+            }
+        }
+    }
+
+    .toolbar-background {
+        background: #E00800;
+    }
+
+    ion-toolbar {
+        --background: #E00800;
+        --color: #ffffff;
+    }
 }
 
 /*
@@ -17,5 +40,28 @@
  * -------------------------------------------
  */
 :root.dark {
+    --ion-toolbar-background: #E00800;
+    --ion-toolbar-background-color: #E00800;
+    --ion-toolbar-color: #ffffff;
+    --core-header-toolbar-background: #E00800;
 
+    ion-header {
+        ion-toolbar {
+            --background: #E00800;
+            --color: #ffffff;
+            
+            ion-title, ion-button, ion-back-button {
+                --color: #ffffff;
+            }
+        }
+    }
+
+    .toolbar-background {
+        background: #E00800;
+    }
+
+    ion-toolbar {
+        --background: #E00800;
+        --color: #ffffff;
+    }
 }

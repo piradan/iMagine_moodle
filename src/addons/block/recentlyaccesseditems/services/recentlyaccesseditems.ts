@@ -1,95 +1,160 @@
 import { Injectable } from '@angular/core';
 import { CoreSites } from '@services/sites';
+import { CoreWSExternalWarning } from '@services/ws';
 import { makeSingleton } from '@singletons';
-import { 
-    Badge, Certificate, CourseProgress, Achievement,  
-    WSBadgesResponse, WSCertificatesResponse, 
-    WSCourseProgressResponse, WSAchievementsResponse 
-} from './interfaces';
+
+interface Badge {
+   name: string;
+   description: string;
+   badgeurl: string;
+   dateissued: Date;
+   coursename?: string;
+}
+
+interface Certificate {
+   coursename: string;
+   dateissued: Date; 
+   certificateurl: string;
+}
+
+interface CourseProgress {
+   courseName: string;
+   courseId: number;
+   progress: number;
+   completed: boolean;
+   totalActivities: number;
+   completedActivities: number;
+}
+
+interface Achievement {
+   title: string;
+   description: string;
+   date: Date;
+   icon: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AddonRecentlyAccessedItemsService {
 
-    /**
-     * Get user badges using core_badges_get_user_badges.
-     */
-    async getBadges(): Promise<Badge[]> {
-        const site = CoreSites.getCurrentSite();
-        if (!site) {
-            throw new Error('Site not found');
-        }
+   constructor() {
+       // Initialize service
+   }
 
-        const response: WSBadgesResponse = await site.read('core_badges_get_user_badges', {
-            userid: site.getUserId()
-        });
+   async getBadges(): Promise<Badge[]> {
+       const site = CoreSites.getCurrentSite();
+       if (!site) {
+           return [];
+       }
 
-        return response.badges;
-    }
+       try {
+           const data: any = await site.read('core_badges_get_user_badges', {
+               userid: site.getUserId()
+           });
+           
+           return (data.badges || []).map((badge: any) => ({
+               name: badge.name,
+               description: badge.description,
+               badgeurl: badge.badgeurl,
+               dateissued: new Date(badge.dateissued * 1000),
+               coursename: badge.coursename
+           }));
+       } catch (error) {
+           console.error('Error fetching badges:', error);
+           return [];
+       }
+   }
 
-    /**
-     * Get user certificates using mod_certificate_get_user_certificates.
-     */
-    async getCertificates(): Promise<Certificate[]> {
-        const site = CoreSites.getCurrentSite();
-        if (!site) {
-            throw new Error('Site not found');
-        }
+   async getCertificates(): Promise<Certificate[]> {
+       const site = CoreSites.getCurrentSite();
+       if (!site) {
+           return [];
+       }
 
-        const response: WSCertificatesResponse = await site.read('mod_certificate_get_user_certificates', {
-            userid: site.getUserId()
-        });
+       try {
+           const data: any = await site.read('mod_certificate_get_user_certificates', {
+               userid: site.getUserId()
+           });
+           
+           return (data.certificates || []).map((cert: any) => ({
+               coursename: cert.coursename,
+               dateissued: new Date(cert.timecreated * 1000),
+               certificateurl: cert.fileurl
+           }));
+       } catch (error) {
+           console.error('Error fetching certificates:', error);
+           return [];
+       }
+   }
 
-        return response.certificates;
-    }
+   async getCourseProgress(): Promise<CourseProgress[]> {
+       const site = CoreSites.getCurrentSite();
+       if (!site) {
+           return [];
+       }
 
-    /**
-     * Get course progress using core_completion_get_course_completion_status.
-     */
-    async getCourseProgress(): Promise<CourseProgress[]> {
-        const site = CoreSites.getCurrentSite();
-        if (!site) {
-            throw new Error('Site not found');
-        }
+       try {
+           const data: any = await site.read('core_completion_get_course_completion_status', {
+               userid: site.getUserId()
+           });
+           
+           return (data.completions || []).map((course: any) => ({
+               courseName: course.coursename,
+               courseId: course.courseid,
+               progress: this.calculateProgress(course.completions),
+               completed: course.completed,
+               totalActivities: course.totalitems,
+               completedActivities: course.completeditems
+           }));
+       } catch (error) {
+           console.error('Error fetching course progress:', error);
+           return [];
+       }
+   }
 
-        const response: WSCourseProgressResponse = await site.read('core_completion_get_course_completion_status', {
-            userid: site.getUserId()
-        });
+   async getAchievements(): Promise<Achievement[]> {
+       const site = CoreSites.getCurrentSite();
+       if (!site) {
+           return [];
+       }
 
-        return response.courses;
-    }
+       try {
+           const data: any = await site.read('local_achievements_get_user_achievements', {
+               userid: site.getUserId(),
+               limit: 5
+           });
+           
+           return (data.achievements || []).map((achievement: any) => ({
+               title: achievement.name,
+               description: achievement.description,
+               date: new Date(achievement.timeearned * 1000),
+               icon: this.getAchievementIcon(achievement.type)
+           }));
+       } catch (error) {
+           console.error('Error fetching achievements:', error);
+           return [];
+       }
+   }
 
-    /**
-     * Get achievements by combining activity completions and grades.
-     */
-    async getAchievements(): Promise<Achievement[]> {
-        const site = CoreSites.getCurrentSite();
-        if (!site) {
-            throw new Error('Site not found');
-        }
+   private calculateProgress(completions: any[]): number {
+       if (!completions?.length) {
+           return 0;
+       }
+       const completed = completions.filter(c => c.completed).length;
+       return Math.round((completed / completions.length) * 100);
+   }
 
-        const response: WSAchievementsResponse = await site.read('core_completion_get_activities_completion_status', {
-            userid: site.getUserId()
-        });
-
-        return response.achievements;
-    }
-
-    /**
-     * Invalidate the cache for all data.
-     */
-    async invalidateCache(): Promise<void> {
-        const site = CoreSites.getCurrentSite();
-        if (!site) {
-            return;
-        }
-
-        await Promise.all([
-            site.invalidateWsCacheForKey('badges'),
-            site.invalidateWsCacheForKey('certificates'),
-            site.invalidateWsCacheForKey('courseprogress'),
-            site.invalidateWsCacheForKey('achievements')
-        ]);
-    }
+   private getAchievementIcon(type: string): string {
+       const icons: {[key: string]: string} = {
+           'enrollment': 'school',    // For course enrollments
+           'completion': 'trophy',    // For course completions
+           'grade': 'ribbon',        // For grade achievements 
+           'login': 'log-in',        // For first login
+           'activity': 'star',       // For activity completions
+           'badge': 'medal',         // For badge awards
+           'default': 'award'        // Default icon
+       };
+       return icons[type] || icons.default;
+   }
 }
 
-export const AddonRecentlyAccessedItemsInstance = makeSingleton(AddonRecentlyAccessedItemsService);
+export const AddonRecentlyAccessedItems = makeSingleton(AddonRecentlyAccessedItemsService);

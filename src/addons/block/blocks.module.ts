@@ -8,4 +8,4 @@ import { AddonBlockRecentlyAccessedItemsModule } from './recentlyaccesseditems/r
         AddonBlockRecentlyAccessedItemsModule,
     ],
 })
-export class AddonBlocksModule {}
+export class AddonBlockModule {} // Changed from AddonBlocksModule to AddonBlockModule

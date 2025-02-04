@@ -12,7 +12,7 @@
             </ion-avatar>
             <ion-label>
                 <h3>{{badge.name}}</h3>
-                <p>{{badge.dateissued | coreFormatDate }}</p>
+                <p>{{badge.dateissued | date:'medium'}}</p>
             </ion-label>
         </ion-item>
         <ion-item *ngIf="badges.length === 0">
@@ -24,18 +24,15 @@
         <!-- Certificates Section -->
         <ion-item-divider>
             <ion-label>
-                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.certificates' | translate }}</h2>
+                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.viewcertificates' | translate }}</h2>
             </ion-label>
         </ion-item-divider>
-        <ion-item class="ion-text-wrap" *ngFor="let cert of certificates" [href]="cert.downloadurl" target="_blank">
-            <ion-icon name="document" slot="start" aria-hidden="true"></ion-icon>
+        <ion-item class="ion-text-wrap" *ngFor="let certificate of certificates">
+            <ion-icon name="trophy" slot="start" aria-hidden="true"></ion-icon>
             <ion-label>
-                <h3>{{cert.name}}</h3>
-                <p>{{cert.timecreated | coreFormatDate }}</p>
+                <h3>{{certificate.coursename}}</h3>
+                <p>{{ 'addon.block_recentlyaccesseditems.earned' | translate }} {{certificate.dateissued | date:'medium'}}</p>
             </ion-label>
-            <ion-button slot="end" fill="clear">
-                <ion-icon name="download" slot="icon-only" aria-hidden="true"></ion-icon>
-            </ion-button>
         </ion-item>
         <ion-item *ngIf="certificates.length === 0">
             <ion-label>
@@ -46,40 +43,38 @@
         <!-- Course Progress Section -->
         <ion-item-divider>
             <ion-label>
-                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.progress' | translate }}</h2>
+                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.courseprogress' | translate }}</h2>
             </ion-label>
         </ion-item-divider>
-        <ion-item class="ion-text-wrap" *ngFor="let course of courseProgress">
+        <ion-item class="ion-text-wrap" *ngFor="let courseItem of courseProgress">
+            <ion-icon *ngIf="courseItem.progress === 100" name="checkmark-circle" color="success" slot="start"
+                aria-hidden="true"></ion-icon>
             <ion-label>
-                <h3>{{course.courseName}}</h3>
+                <h3>{{courseItem.courseName}}</h3>
                 <div class="progress-container">
-                    <ion-progress-bar [value]="course.progress/100" color="primary"></ion-progress-bar>
-                    <p class="progress-text">{{ 'addon.block_recentlyaccesseditems.progresssummary' | translate: { 
-                        completed: course.completedActivities, 
-                        total: course.totalActivities 
-                    } }}</p>
+                    <ion-progress-bar [value]="courseItem.progress / 100" color="primary"></ion-progress-bar>
+                    <p class="progress-text">{{courseItem.progress}}% {{ 'addon.block_recentlyaccesseditems.complete' | translate }}</p>
                 </div>
             </ion-label>
-            <ion-icon *ngIf="course.progress === 100" 
-                     name="checkmark-circle" 
-                     color="success" 
-                     slot="end" 
-                     aria-hidden="true">
-            </ion-icon>
+        </ion-item>
+        <ion-item *ngIf="courseProgress.length === 0">
+            <ion-label>
+                <p>{{ 'addon.block_recentlyaccesseditems.nocourses' | translate }}</p>
+            </ion-label>
         </ion-item>
 
-        <!-- Achievements Section -->
+        <!-- Personal Achievements Section -->
         <ion-item-divider>
             <ion-label>
-                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.achievements' | translate }}</h2>
+                <h2 class="section-title">{{ 'addon.block_recentlyaccesseditems.recentachievements' | translate }}</h2>
             </ion-label>
         </ion-item-divider>
-        <ion-item class="ion-text-wrap" *ngFor="let achievement of achievements">
-            <ion-icon [name]="achievement.icon" slot="start" aria-hidden="true"></ion-icon>
+        <ion-item class="ion-text-wrap" *ngFor="let achievementItem of achievements">
+            <ion-icon [name]="achievementItem.icon" slot="start" aria-hidden="true"></ion-icon>
             <ion-label>
-                <h3>{{achievement.title}}</h3>
-                <p>{{achievement.description}}</p>
-                <p class="achievement-date">{{achievement.date | coreFormatDate }}</p>
+                <h3>{{achievementItem.title}}</h3>
+                <p>{{achievementItem.description}}</p>
+                <p class="achievement-date">{{achievementItem.date | date:'medium'}}</p>
             </ion-label>
         </ion-item>
         <ion-item *ngIf="achievements.length === 0">

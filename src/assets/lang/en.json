@@ -1,4 +1,18 @@
 {
+
+    {
+"addon.block_recentlyaccesseditems": {
+    "pluginname": "Student Progress",
+    "viewbadges": "View your earned badges",
+    "viewcertificates": "View your certificates",
+    "courseprogress": "Course Progress",
+    "recentachievements": "Recent Achievements",
+    "earned": "Earned",
+    "nobadges": "No badges earned yet",
+    "nocertificates": "No certificates earned yet",
+    "nocourses": "No courses in progress",
+    "noachievements": "No achievements yet. Keep learning!"  
+    }
     "addon.badges.alignment": "Alignment",
     "addon.badges.awardedto": "Awarded to {{$a}}",
     "addon.badges.badgedetails": "Badge details",

@@ -1,41 +1,19 @@
 :host {
-    ion-content {
-        --background: var(--ion-background-color);
-    }
-
     ion-card {
-        margin: 16px;
-        border-radius: 8px;
-        background: var(--ion-card-background);
-
-        ion-card-header {
-            padding: 16px;
-        }
-
-        ion-card-content {
-            padding: 0;
-        }
-
-        ion-item {
-            --background: transparent;
-            --padding-start: 16px;
-            --padding-end: 16px;
-            --inner-padding-end: 16px;
-        }
+        margin: 8px;
     }
 
     .section-title {
         font-size: 18px;
         font-weight: 500;
         margin: 0;
-        color: var(--ion-text-color);
     }
 
     .progress-container {
-        margin-top: 8px;
+        margin-top: 12px;
 
         ion-progress-bar {
-            margin-bottom: 4px;
+            margin-bottom: 8px;
         }
     }
 
@@ -49,6 +27,16 @@
         margin-top: 4px;
         font-size: 12px;
         color: var(--ion-color-medium);
+    }
+
+    .radio-container {
+        width: 100%;
+        padding: 8px 0;
+
+        audio {
+            width: 100%;
+            margin: 8px 0;
+        }
     }
 
     ion-item {
